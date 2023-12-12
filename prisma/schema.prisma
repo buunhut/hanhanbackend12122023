@@ -1,0 +1,263 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model bangChiTiet {
+  dId       Int       @id @default(autoincrement())
+  ngay      DateTime? @db.Date
+  spId      Int?
+  tenSp     String?   @db.VarChar(255)
+  dvt       String?   @db.VarChar(20)
+  kId       Int?
+  quyDoi    BigInt?   @default(0)
+  soLuong   BigInt?   @default(0)
+  donGia    BigInt?   @default(0)
+  loaiPhieu String?   @db.VarChar(2)
+  pId       Int?
+  sId       Int?
+  sta       Boolean?  @default(true)
+  sanPham   sanPham?  @relation(fields: [spId], references: [spId], onDelete: NoAction, onUpdate: NoAction, map: "bangChiTiet_ibfk_1")
+  phieu     phieu?    @relation(fields: [pId], references: [pId], onDelete: NoAction, onUpdate: NoAction, map: "bangChiTiet_ibfk_2")
+  shops     shops?    @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "bangChiTiet_ibfk_3")
+
+  @@index([pId], map: "pId")
+  @@index([sId], map: "sId")
+  @@index([spId], map: "spId")
+}
+
+model cauHinh {
+  chId      Int      @id @default(autoincrement())
+  mienPhiVc Int?     @default(0)
+  phiVc     Int?     @default(0)
+  hoanTien  Int?     @default(0)
+  mucHoan   Float?   @default(0) @db.Float
+  sId       Int?
+  sta       Boolean? @default(true)
+  shops     shops?   @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "cauHinh_ibfk_1")
+
+  @@index([sId], map: "sId")
+}
+
+model chiTietDonHang {
+  odId    Int      @id @default(autoincrement())
+  spId    Int?
+  tenSp   String?  @db.VarChar(255)
+  dvt     String?  @db.VarChar(20)
+  kId     Int?
+  quyDoi  Int?     @default(1)
+  soLuong BigInt?  @default(0)
+  donGia  BigInt?  @default(0)
+  oId     Int?
+  sId     Int?
+  sta     Boolean? @default(true)
+  donHang donHang? @relation(fields: [oId], references: [oId], onDelete: NoAction, onUpdate: NoAction, map: "chiTietDonHang_ibfk_1")
+  sanPham sanPham? @relation(fields: [spId], references: [spId], onDelete: NoAction, onUpdate: NoAction, map: "chiTietDonHang_ibfk_2")
+  shops   shops?   @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "chiTietDonHang_ibfk_3")
+
+  @@index([oId], map: "oId")
+  @@index([sId], map: "sId")
+  @@index([spId], map: "spId")
+}
+
+model danhMuc {
+  dmId       Int          @id @default(autoincrement())
+  tenDanhMuc String?      @db.VarChar(100)
+  hinhAnh    String?      @db.Text
+  sId        Int?
+  sta        Boolean?     @default(true)
+  shops      shops?       @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "danhMuc_ibfk_1")
+  thuongHieu thuongHieu[]
+
+  @@index([sId], map: "sId")
+}
+
+model diemTichLuy {
+  tId         Int      @id @default(autoincrement())
+  oId         Int?
+  uId         Int?
+  sId         Int?
+  diemTichLuy BigInt?
+  truTichLuy  BigInt?
+  sta         Boolean? @default(true)
+  donHang     donHang? @relation(fields: [oId], references: [oId], onDelete: NoAction, onUpdate: NoAction, map: "diemTichLuy_ibfk_1")
+  shops       shops?   @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "diemTichLuy_ibfk_2")
+  users       users?   @relation(fields: [uId], references: [uId], onDelete: NoAction, onUpdate: NoAction, map: "diemTichLuy_ibfk_3")
+
+  @@index([oId], map: "oId")
+  @@index([sId], map: "sId")
+  @@index([uId], map: "uId")
+}
+
+model doiTac {
+  dtId        Int      @id @default(autoincrement())
+  maDoiTac    String?  @db.VarChar(255)
+  tenDoiTac   String?  @db.VarChar(255)
+  diaChi      String?  @db.Text
+  mst         String?  @db.VarChar(20)
+  soDt        String?  @db.VarChar(20)
+  nguoiLienHe String?  @db.VarChar(100)
+  loaiDt      String?  @db.VarChar(3)
+  sId         Int?
+  sta         Boolean? @default(true)
+  shops       shops?   @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "doiTac_ibfk_1")
+  phieu       phieu[]
+
+  @@index([sId], map: "sId")
+}
+
+model donHang {
+  oId            Int              @id @default(autoincrement())
+  ngay           DateTime?        @db.DateTime(0)
+  soDonHang      String?          @db.VarChar(20)
+  tienHang       BigInt?          @default(0)
+  phiVc          BigInt?          @default(0)
+  thanhToan      BigInt?          @default(0)
+  traVi          BigInt?          @default(0)
+  ghiChu         String?          @db.VarChar(255)
+  trangThai      String?          @default("chờ xử lý") @db.VarChar(20)
+  nguoiGiao      String?          @db.VarChar(100)
+  nvId           Int?
+  uId            Int?
+  sId            Int?
+  sta            Boolean?         @default(true)
+  chiTietDonHang chiTietDonHang[]
+  diemTichLuy    diemTichLuy[]
+  nhanVien       nhanVien?        @relation(fields: [nvId], references: [nvId], onDelete: NoAction, onUpdate: NoAction, map: "donHang_ibfk_1")
+  users          users?           @relation(fields: [uId], references: [uId], onDelete: NoAction, onUpdate: NoAction, map: "donHang_ibfk_2")
+  shops          shops?           @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "donHang_ibfk_3")
+
+  @@index([nvId], map: "nvId")
+  @@index([sId], map: "sId")
+  @@index([uId], map: "uId")
+}
+
+model nhanVien {
+  nvId        Int       @id @default(autoincrement())
+  tenNhanVien String?   @db.VarChar(100)
+  soDt        String?   @db.VarChar(20)
+  diaChi      String?   @db.Text
+  chucVu      String?   @db.VarChar(20)
+  mucLuong    Int?      @default(0)
+  sId         Int?
+  sta         Boolean?  @default(true)
+  donHang     donHang[]
+  shops       shops?    @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "nhanVien_ibfk_1")
+
+  @@index([sId], map: "sId")
+}
+
+model phieu {
+  pId         Int           @id @default(autoincrement())
+  ngay        DateTime?     @db.Date
+  maDoiTac    String?       @db.VarChar(255)
+  soPhieu     String?       @db.VarChar(20)
+  soTien      BigInt?       @default(0)
+  thanhToan   BigInt?       @default(0)
+  ghiChu      String?       @db.VarChar(255)
+  loaiPhieu   String?       @db.VarChar(2)
+  trangThai   String?       @default("moiTao") @db.VarChar(20)
+  dtId        Int?
+  sId         Int?
+  sta         Boolean?      @default(true)
+  bangChiTiet bangChiTiet[]
+  doiTac      doiTac?       @relation(fields: [dtId], references: [dtId], onDelete: NoAction, onUpdate: NoAction, map: "phieu_ibfk_1")
+  shops       shops?        @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "phieu_ibfk_2")
+
+  @@index([dtId], map: "dtId")
+  @@index([sId], map: "sId")
+}
+
+model sanPham {
+  spId           Int              @id @default(autoincrement())
+  maSp           String?          @db.VarChar(50)
+  tenSp          String?          @db.VarChar(255)
+  dvt            String?          @db.VarChar(20)
+  quyDoi         Int?             @default(1)
+  giaNhap        BigInt?          @default(0)
+  giaBan         BigInt?          @default(0)
+  giaGiam        BigInt?          @default(0)
+  phiVc          BigInt?          @default(0)
+  maxOrder       Int?             @default(0)
+  chiTiet        String?          @db.Text
+  hinhAnh        String?          @db.Text
+  gif            Boolean?         @default(false)
+  sho            Boolean?         @default(false)
+  thId           Int?
+  kId            Int?
+  soLuong        BigInt?          @default(0)
+  sId            Int?
+  sta            Boolean?         @default(true)
+  bangChiTiet    bangChiTiet[]
+  chiTietDonHang chiTietDonHang[]
+  thuongHieu     thuongHieu?      @relation(fields: [thId], references: [thId], onDelete: NoAction, onUpdate: NoAction, map: "sanPham_ibfk_1")
+  shops          shops?           @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "sanPham_ibfk_2")
+
+  @@index([sId], map: "sId")
+  @@index([thId], map: "thId")
+}
+
+model shops {
+  sId            Int              @id @default(autoincrement())
+  taiKhoan       String?          @db.VarChar(20)
+  matKhau        String?          @db.VarChar(255)
+  tenShop        String?          @db.VarChar(255)
+  diaChi         String?          @db.Text
+  soDt           String?          @db.VarChar(20)
+  nguoiLienHe    String?          @db.VarChar(100)
+  sta            Boolean?         @default(true)
+  bangChiTiet    bangChiTiet[]
+  cauHinh        cauHinh[]
+  chiTietDonHang chiTietDonHang[]
+  danhMuc        danhMuc[]
+  diemTichLuy    diemTichLuy[]
+  doiTac         doiTac[]
+  donHang        donHang[]
+  nhanVien       nhanVien[]
+  phieu          phieu[]
+  sanPham        sanPham[]
+  thuongHieu     thuongHieu[]
+  tkNganHang     tkNganHang[]
+}
+
+model thuongHieu {
+  thId          Int       @id @default(autoincrement())
+  tenThuongHieu String?   @db.VarChar(100)
+  hinhAnh       String?   @db.Text
+  dmId          Int?
+  sId           Int?
+  sta           Boolean?  @default(true)
+  sanPham       sanPham[]
+  danhMuc       danhMuc?  @relation(fields: [dmId], references: [dmId], onDelete: NoAction, onUpdate: NoAction, map: "thuongHieu_ibfk_1")
+  shops         shops?    @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "thuongHieu_ibfk_2")
+
+  @@index([dmId], map: "dmId")
+  @@index([sId], map: "sId")
+}
+
+model tkNganHang {
+  tkId        Int      @id @default(autoincrement())
+  tenNganHang String?  @db.VarChar(255)
+  soTk        String?  @db.VarChar(20)
+  tenChuTk    String?  @db.VarChar(100)
+  sId         Int?
+  sta         Boolean? @default(true)
+  shops       shops?   @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "tkNganHang_ibfk_1")
+
+  @@index([sId], map: "sId")
+}
+
+model users {
+  uId         Int           @id @default(autoincrement())
+  hoTen       String?       @db.VarChar(255)
+  diaChi      String?       @db.Text
+  soDt        String?       @db.VarChar(20)
+  matKhau     String?       @db.VarChar(255)
+  sta         Boolean?      @default(true)
+  diemTichLuy diemTichLuy[]
+  donHang     donHang[]
+}
