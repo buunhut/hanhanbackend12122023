@@ -46,3 +46,8 @@ CMD ["yarn","start"]
 # curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
 
 # sudo apt-get install gcc g++ make
+
+#truy cập vào container
+# docker exec -it cons-be /bin/bash
+# git clone địa chỉ github
+# thoát và restart container
