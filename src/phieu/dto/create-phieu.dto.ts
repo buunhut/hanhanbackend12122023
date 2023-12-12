@@ -33,4 +33,15 @@ export class TraNoMotPhieuDto {
     thanhToan: number
 }
 
+export class SortPhieuDto {
+    @ApiProperty({type: 'string', format: 'date'})
+    from: Date
+    @ApiProperty({type: 'string', format: 'date'})
+    to: Date
+    @ApiProperty({type: 'number'})
+    dtId: number
+    @ApiProperty({type: 'string'})
+    locNo: string
+}
+
 

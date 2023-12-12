@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePhieuDto, LuuPhieuDto, SuaChiTietDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
+import { CreatePhieuDto, LuuPhieuDto, SortPhieuDto, SuaChiTietDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
 import { UpdatePhieuDto } from './dto/update-phieu.dto';
 import { ExtraService } from 'src/service';
 import { PrismaClient } from '@prisma/client';
@@ -331,6 +331,144 @@ export class PhieuService {
         return this.extraService.response(500, 'lỗi', null)
       }
       console.log(body)
+    } catch (error) {
+      return this.extraService.response(500, 'lỗi', error)
+    }
+  }
+
+
+  async sortPhieu(token: string, body: SortPhieuDto) {
+    try {
+      const sId = await this.extraService.getSId(token)
+      // console.log(body)
+
+      let whereCondition: any = {
+          sId,
+          loaiPhieu: 'pn',
+          trangThai: 'luu',
+          sta: true,
+      }
+
+      if(body.dtId) {
+        whereCondition.dtId = body.dtId
+      }
+
+      if (body.from) {
+        if (body.to) {
+          // If both from and to are present, construct ngay as an object
+          whereCondition.ngay = {
+            gte: `${body.from}T00:00:00.000Z`, // Assuming body.from is a valid date string
+            lte: `${body.to}T00:00:00.000Z`,   // Assuming body.to is a valid date string
+          };
+        } else {
+          // If only from is present, set ngay directly
+          whereCondition.ngay = `${body.from}T00:00:00.000Z`
+        }
+      }
+
+      if(body.to) {
+        if (body.from) {
+          // If both from and to are present, construct ngay as an object
+          whereCondition.ngay = {
+            gte: `${body.from}T00:00:00.000Z`, // Assuming body.from is a valid date string
+            lte: `${body.to}T00:00:00.000Z`,   // Assuming body.to is a valid date string
+          };
+        } else {
+          // If only from is present, set ngay directly
+          whereCondition.ngay = `${body.to}T00:00:00.000Z`
+        }
+      }
+
+      
+
+      const chiTietNhap = await prisma.phieu.findMany({
+        // where: {
+        //   sId,
+        //   loaiPhieu: 'pn',
+        //   trangThai: 'luu',
+        //   sta: true,
+        // },
+        where: whereCondition,
+        include: {
+          bangChiTiet: true,
+          doiTac: true,
+        },
+        orderBy:{
+          pId: 'desc'
+        }
+      });
+      if (chiTietNhap.length > 0) {
+        if(body.locNo) {
+          const res = chiTietNhap.forEach((item) => {
+            const { soTien, thanhToan, soPhieu, bangChiTiet, doiTac } = item;
+            const conNo = Number(soTien) - Number(thanhToan);
+            if(conNo > 0) {
+            const chiTietMapped = bangChiTiet.map((item) => {
+              const { quyDoi, donGia, soLuong } = item;
+              const thanhTien = Number(donGia) * Number(soLuong);
+              return {
+                ...item,
+                quyDoi: Number(quyDoi),
+                donGia: Number(donGia),
+                soLuong: Number(soLuong),
+                thanhTien,
+                soPhieu,
+              };
+            });
+            return {
+              ...item,
+              bangChiTiet: chiTietMapped,
+              soTien: Number(soTien),
+              thanhToan: Number(thanhToan),
+              conNo,
+            };
+          }
+          });
+
+          // console.log(res)
+
+          if(res !== undefined) {
+        return this.extraService.response(200, 'chi tiết nhập', res);
+
+          } else {
+        return this.extraService.response(404, 'not found', []);
+
+          }
+
+        } else {
+
+        const res = chiTietNhap.map((item) => {
+          const { soTien, thanhToan, soPhieu, bangChiTiet, doiTac } = item;
+          const conNo = Number(soTien) - Number(thanhToan);
+          const chiTietMapped = bangChiTiet.map((item) => {
+            const { quyDoi, donGia, soLuong } = item;
+
+            const thanhTien = Number(donGia) * Number(soLuong);
+            return {
+              ...item,
+              quyDoi: Number(quyDoi),
+              donGia: Number(donGia),
+              soLuong: Number(soLuong),
+              thanhTien,
+              soPhieu,
+            };
+          });
+          return {
+            ...item,
+            bangChiTiet: chiTietMapped,
+            soTien: Number(soTien),
+            thanhToan: Number(thanhToan),
+            conNo,
+          };
+        });
+        return this.extraService.response(200, 'chi tiết nhập', res);
+
+      }
+      } else {
+        return this.extraService.response(404, 'not found', [])
+      }
+
+      
     } catch (error) {
       return this.extraService.response(500, 'lỗi', error)
     }
