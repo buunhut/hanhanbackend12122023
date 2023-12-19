@@ -59,6 +59,10 @@ export class UsersController {
   getTatCaSanPham() {
     return this.usersService.getTatCaSanPham();
   }
+  @Get('/tim-kiem-san-pham/:keyword')
+  timKiemSanPham(@Param('keyword') keyword: string) {
+    return this.usersService.timKiemSanPham(keyword);
+  }
   @Get('/get-tat-ca-san-pham-by-danh-muc')
   getTatCaSanPhamByDanhMuc() {
     return this.usersService.getTatCaSanPhamByDanhMuc();

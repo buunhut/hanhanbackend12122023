@@ -55,6 +55,55 @@ export class UsersService {
       return this.extraService.response(500, 'lỗi', error);
     }
   }
+  async timKiemSanPham(keyword: string) {
+    try {
+      const tatCaSanPham = await prisma.sanPham.findMany({
+        where: {
+          sho: true,
+          sta: true,
+          OR: [
+            {
+              tenSp: {
+                contains: keyword,
+              }
+            }
+          ]
+        },
+        select: {
+          spId: true,
+          tenSp: true,
+          dvt: true,
+          kId: true,
+          soLuong: true,
+          quyDoi: true,
+          giaBan: true,
+          giaGiam: true,
+          phiVc: true,
+          maxOrder: true,
+          hinhAnh: true,
+          sId: true,
+        },
+      });
+      if (tatCaSanPham.length > 0) {
+        const res = tatCaSanPham.map((item) => {
+          const { giaBan, giaGiam, soLuong, quyDoi, phiVc } = item;
+          return {
+            ...item,
+            giaBan: Number(giaBan),
+            giaGiam: Number(giaGiam),
+            phiVc: Number(phiVc),
+            soLuong: Number(soLuong),
+            quyDoi: Number(quyDoi),
+          };
+        });
+        return this.extraService.response(200, 'tất cả sản phẩm', res);
+      } else {
+        return this.extraService.response(404, 'not found', []);
+      }
+    } catch (error) {
+      return this.extraService.response(500, 'lỗi', error);
+    }
+  }
   async getTatCaSanPhamByDanhMuc() {
     try {
       const sanPhamByDanhMuc = await prisma.danhMuc.findMany({
