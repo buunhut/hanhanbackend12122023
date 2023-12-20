@@ -594,20 +594,33 @@ export class DonHangService {
     }
   }
 
+  async donHangChoXuLyByShop(token: string) {
+    try {
+      const sId = await this.extraService.getSId(token);
+      const donHangChoXuLy = await prisma.donHang.count({
+        where: {
+          sId,
+          sta: true,
+          trangThai: 'chờ xử lý'
+        },
+        orderBy: {
+          oId: 'desc',
+        },
+ 
+      });
+      if(donHangChoXuLy) {
+        return this.extraService.response(200, 'đơn hàng chờ xử lý', donHangChoXuLy)
+      } else {
+        return this.extraService.response(404, 'not found', 0)
+      }
 
-  // findAll() {
-  //   return `This action returns all donHang`;
-  // }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} donHang`;
-  // }
+      // console.log(listDonHangByShop);
+    } catch (error) {
+      return this.extraService.response(500, 'lỗi', error);
+    }
+  }
 
-  // update(id: number, updateDonHangDto: UpdateDonHangDto) {
-  //   return `This action updates a #${id} donHang`;
-  // }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} donHang`;
-  // }
+
 }

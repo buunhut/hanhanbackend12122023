@@ -60,24 +60,12 @@ export class DonHangController {
     return this.donHangService.getVi(token);
   }
 
+  @Get('/don-hang-cho-xu-ly')
+  donHangChoXuLyByShop(@Headers('token') token: string) {
+    return this.donHangService.donHangChoXuLyByShop(token);
+  }
 
-  // @Post('sort-nguoi-giao') 
-  // sortNguoiGiao(@Headers('token') token: string, @Body() body: SortDto) {
-  //   return this.donHangService.sortNguoiGiao(token, body);
-  // }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.donHangService.findOne(+id);
-  // }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateDonHangDto: UpdateDonHangDto) {
-  //   return this.donHangService.update(+id, updateDonHangDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.donHangService.remove(+id);
-  // }
+  
 }
