@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CheckSoDtUserDto, CreateUserDto } from './dto/create-user.dto';
+import { CheckSoDtUserDto, CreateUserDto, DangNhapDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/service';
@@ -82,7 +82,7 @@ export class UsersController {
 
   }
   @Post('dang-nhap')
-  dangNhap(@Body() body: CheckSoDtUserDto) {
+  dangNhap(@Body() body: DangNhapDto) {
     return this.usersService.dangNhap(body);
   }
 

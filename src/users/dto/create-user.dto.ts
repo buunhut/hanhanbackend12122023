@@ -14,3 +14,9 @@ export class CheckSoDtUserDto {
   @ApiProperty({ type: 'string' })
   soDt: string;
 }
+export class DangNhapDto {
+  @ApiProperty({ type: 'string' })
+  soDt: string;
+  @ApiProperty({ type: 'string' })
+  matKhau: string;
+}

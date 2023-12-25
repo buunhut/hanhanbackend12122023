@@ -1,7 +1,7 @@
 import { async } from 'rxjs';
 import { SanPham } from './../san-pham/entities/san-pham.entity';
 import { Injectable } from '@nestjs/common';
-import { CheckSoDtUserDto, CreateUserDto } from './dto/create-user.dto';
+import { CheckSoDtUserDto, CreateUserDto, DangNhapDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ExtraService } from 'src/service';
 import { PrismaClient } from '@prisma/client';
@@ -291,9 +291,10 @@ export class UsersService {
       return this.extraService.response(500, 'lỗi', error)
     }
   }
-  async dangNhap(body: CheckSoDtUserDto) {
+  async dangNhap(body: DangNhapDto) {
     try {
       const soDt = body.soDt.replace('+84', '0')
+      const {matKhau} = body
       const dangNhap = await prisma.users.findFirst({
         where: {
           soDt,
@@ -301,6 +302,16 @@ export class UsersService {
         }
       })
       if(dangNhap) {
+        const checkMatKhau = await prisma.users.findFirst({
+          where: {
+            soDt,
+            matKhau,
+            sta: true,
+          }
+        })
+        if(checkMatKhau) {
+
+
         const token = await this.extraService.signToken(dangNhap)
         const res = {
           ...dangNhap,
@@ -309,7 +320,13 @@ export class UsersService {
         }
         return this.extraService.response(200, 'đang nhập thành công', res)
       } else {
-        return this.extraService.response(404, 'đăng nhập thất bại', soDt)
+        return this.extraService.response(405, 'sai mật khẩu', matKhau)
+
+      }
+
+
+      } else {
+        return this.extraService.response(404, 'sai số điện thoại', soDt)
       }
       
     } catch (error) {
