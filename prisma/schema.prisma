@@ -36,6 +36,7 @@ model cauHinh {
   phiVc     Int?     @default(0)
   hoanTien  Int?     @default(0)
   mucHoan   Float?   @default(0) @db.Float
+  tatShop   Boolean? @default(false)
   sId       Int?
   sta       Boolean? @default(true)
   shops     shops?   @relation(fields: [sId], references: [sId], onDelete: NoAction, onUpdate: NoAction, map: "cauHinh_ibfk_1")

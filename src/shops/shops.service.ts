@@ -95,7 +95,7 @@ export class ShopsService {
         sId,
         mucHoan: Number(body.mucHoan),
       };
-      console.log(data)
+      // console.log(data)
       if (count === 0) {
         const taoCauHinh = await prisma.cauHinh.create({
           data,
@@ -124,6 +124,7 @@ export class ShopsService {
         },
       });
       if (cauHinh) {
+        // console.log(cauHinh)
         return this.extraService.response(200, 'cấu hình', cauHinh);
       } else {
         return this.extraService.response(404, 'not found', {
@@ -135,6 +136,38 @@ export class ShopsService {
       }
     } catch (error) {
       return this.extraService.response(500, 'lỗi', error);
+    }
+  }
+
+  async tatMoShop(token: string) {
+    try {
+      const sId = await this.extraService.getSId(token)
+      const trangThai = await prisma.cauHinh.findFirst({
+        where: {
+          sId,
+          sta: true,
+        },
+        select: {
+          tatShop: true
+        }
+      })
+      const tatMoShop = await prisma.cauHinh.updateMany({
+        where: {
+          sId, 
+          sta: true
+        },
+        data: {
+          tatShop: !trangThai.tatShop
+        }
+      })
+      if(tatMoShop.count > 0) {
+        return this.extraService.response(200, 'done', !trangThai.tatShop)
+      } else {
+        return this.extraService.response(404, 'lỗi', null)
+      }
+    } catch (error) {
+      this.extraService.response(500, 'lỗi', error)
+      
     }
   }
 }

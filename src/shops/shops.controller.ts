@@ -23,6 +23,11 @@ export class ShopsController {
   taoCauHinh(@Headers('token') token: string, @Body() body: TaoCauHinhDto) {
     return this.shopsService.taoCauHinh(token, body);
   }
+  @UseGuards(AuthGuard)
+  @Post('/tat-mo-shop')
+  tatMoShop(@Headers('token') token: string) {
+    return this.shopsService.tatMoShop(token);
+  }
   @Get('/get-cau-hinh/:sId')
   getCauHinh(@Param('sId') sId: number) {
     return this.shopsService.getCauHinh(+sId);
