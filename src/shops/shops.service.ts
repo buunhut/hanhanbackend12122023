@@ -132,6 +132,7 @@ export class ShopsService {
           phiVc: 0,
           hoanTien: 0,
           mucHoan: 0,
+          tatShop: false
         });
       }
     } catch (error) {
