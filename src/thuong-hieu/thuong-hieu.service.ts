@@ -40,7 +40,7 @@ export class ThuongHieuService {
           ...body,
           sId
         }
-        console.log(data)
+        // console.log(data)
         const create = await prisma.thuongHieu.create({
           data
         });
@@ -57,23 +57,23 @@ export class ThuongHieuService {
       try {
         const sId = await this.extraService.getSId(token);
         const { thId, tenThuongHieu } = body;
-        const checkTen = await prisma.thuongHieu.findFirst({
-          where: {
-            tenThuongHieu,
-            sId,
-            sta: true,
-            NOT: {
-              thId,
-            },
-          },
-        });
-        if (checkTen) {
-          return this.extraService.response(
-            207,
-            'trùng tên thương hiệu',
-            tenThuongHieu,
-          );
-        } else {
+        // const checkTen = await prisma.thuongHieu.findFirst({
+        //   where: {
+        //     tenThuongHieu,
+        //     sId,
+        //     sta: true,
+        //     NOT: {
+        //       thId,
+        //     },
+        //   },
+        // });
+        // if (checkTen) {
+        //   return this.extraService.response(
+        //     207,
+        //     'trùng tên thương hiệu',
+        //     tenThuongHieu,
+        //   );
+        // } else {
           const update = await prisma.thuongHieu.updateMany({
             where: {
               thId,
@@ -89,7 +89,7 @@ export class ThuongHieuService {
           } else {
             return this.extraService.response(500, 'lỗi', null);
           }
-        }
+        // }
       } catch (error) {
         return this.extraService.response(500, 'lỗi', error);
       }
