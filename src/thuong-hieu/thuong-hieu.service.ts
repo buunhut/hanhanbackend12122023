@@ -24,11 +24,36 @@ export class ThuongHieuService {
             thId: 'desc'
           }
         })
-        if(listThuongHieu.length > 0) {
-          return this.extraService.response(200, 'list thương hiệu', listThuongHieu)
-        } else {
-          return this.extraService.response(404, 'not found', [])
-        }
+           // Tạo một đối tượng để lưu trữ các tên thương hiệu đã xuất hiện
+    const uniqueTenThuongHieu = {};
+
+    // Lọc mảng listThuongHieu để chỉ giữ lại các đối tượng có tên thương hiệu không trùng lặp
+    const filteredListThuongHieu = listThuongHieu.filter(thuongHieu => {
+      if (!uniqueTenThuongHieu[thuongHieu.tenThuongHieu]) {
+        // Nếu tên thương hiệu chưa xuất hiện, đánh dấu đã xuất hiện và giữ lại đối tượng
+        uniqueTenThuongHieu[thuongHieu.tenThuongHieu] = true;
+        return true;
+      }
+      return false;
+    });
+
+    if (filteredListThuongHieu.length > 0) {
+    console.log(filteredListThuongHieu)
+
+      return this.extraService.response(200, 'list thương hiệu', filteredListThuongHieu);
+
+    } else {
+      return this.extraService.response(404, 'not found', []);
+    }
+
+
+
+
+        // if(listThuongHieu.length > 0) {
+        //   return this.extraService.response(200, 'list thương hiệu', listThuongHieu)
+        // } else {
+        //   return this.extraService.response(404, 'not found', [])
+        // }
       } catch (error) {
         return this.extraService.response(500, 'lỗi', error)
       }
@@ -57,6 +82,20 @@ export class ThuongHieuService {
       try {
         const sId = await this.extraService.getSId(token);
         const { thId, tenThuongHieu } = body;
+
+        const getTenThuongHieu = await prisma.thuongHieu.findFirst({
+          where: {
+            sId,
+            sta: true,
+            thId
+          },
+          select: {
+            tenThuongHieu:true
+          }
+        })
+        const tenCapNhat = getTenThuongHieu.tenThuongHieu
+
+
         // const checkTen = await prisma.thuongHieu.findFirst({
         //   where: {
         //     tenThuongHieu,
@@ -76,7 +115,8 @@ export class ThuongHieuService {
         // } else {
           const update = await prisma.thuongHieu.updateMany({
             where: {
-              thId,
+              // thId,
+              tenThuongHieu: tenCapNhat,
               sId,
               sta: true,
             },
