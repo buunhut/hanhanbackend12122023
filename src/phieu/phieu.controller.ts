@@ -49,5 +49,13 @@ export class PhieuController {
     return this.phieuService.sortPhieu(token, body);
 
   }
+  
+  @Post('demo')
+  demo(@Headers('token') token:string, @Body() body: SortPhieuDto) {
+    return this.phieuService.sortPhieu(token, body);
+
+  }
+
+
 
 }

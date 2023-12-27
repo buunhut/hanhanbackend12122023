@@ -48,6 +48,9 @@ let PhieuController = class PhieuController {
     sortPhieu(token, body) {
         return this.phieuService.sortPhieu(token, body);
     }
+    demo(token, body) {
+        return this.phieuService.sortPhieu(token, body);
+    }
 };
 exports.PhieuController = PhieuController;
 __decorate([
@@ -120,6 +123,14 @@ __decorate([
     __metadata("design:paramtypes", [String, create_phieu_dto_1.SortPhieuDto]),
     __metadata("design:returntype", void 0)
 ], PhieuController.prototype, "sortPhieu", null);
+__decorate([
+    (0, common_1.Post)('demo'),
+    __param(0, (0, common_1.Headers)('token')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, create_phieu_dto_1.SortPhieuDto]),
+    __metadata("design:returntype", void 0)
+], PhieuController.prototype, "demo", null);
 exports.PhieuController = PhieuController = __decorate([
     (0, swagger_1.ApiTags)('phieu'),
     (0, common_1.Controller)('phieu'),

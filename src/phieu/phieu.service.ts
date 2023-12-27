@@ -250,6 +250,7 @@ export class PhieuService {
       return this.extraService.response(500, 'lỗi', error)
     }
   }
+  
   async luuPhieuMoiTao(token: string, body: LuuPhieuDto) {
     try {
       const sId = await this.extraService.getSId(token)
@@ -335,7 +336,6 @@ export class PhieuService {
       return this.extraService.response(500, 'lỗi', error)
     }
   }
-
 
   async sortPhieu(token: string, body: SortPhieuDto) {
     try {
