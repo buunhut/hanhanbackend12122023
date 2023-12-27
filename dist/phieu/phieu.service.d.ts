@@ -25,12 +25,21 @@ export declare class PhieuService {
         message: string;
         content: any;
     }>;
+    getPhieuXuatMoiTao(token: string): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
     suaChiTiet(token: string, body: SuaChiTietDto): Promise<{
         statusCode: number;
         message: string;
         content: any;
     }>;
-    findOne(id: number): string;
+    getPhieuNhap(token: string, pId: number): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
     update(id: number, updatePhieuDto: UpdatePhieuDto): string;
     xoaPhieuMoiTao(token: string, pId: number): Promise<{
         statusCode: number;
@@ -48,6 +57,11 @@ export declare class PhieuService {
         content: any;
     }>;
     sortPhieu(token: string, body: SortPhieuDto): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
+    sortPhieuXuat(token: string, body: SortPhieuDto): Promise<{
         statusCode: number;
         message: string;
         content: any;

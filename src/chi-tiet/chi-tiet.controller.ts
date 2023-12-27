@@ -18,6 +18,10 @@ export class ChiTietController {
   getChiTietNhap(@Headers('token') token: string) {
     return this.chiTietService.getChiTietNhap(token);
   }
+  @Get('/get-chi-tiet-xuat')
+  getChiTietXuat(@Headers('token') token: string) {
+    return this.chiTietService.getChiTietXuat(token);
+  }
   @Get('/tim-chi-tiet-nhap/:keyword')
   timChiTietNhap(@Headers('token') token: string, @Param('keyword') keyword: string) {
     return this.chiTietService.timChiTietNhap(token, keyword);

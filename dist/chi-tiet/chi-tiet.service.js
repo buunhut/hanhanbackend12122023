@@ -129,6 +129,58 @@ let ChiTietService = class ChiTietService {
             return this.extraService.response(500, 'lỗi', error);
         }
     }
+    async getChiTietXuat(token) {
+        try {
+            const sId = await this.extraService.getSId(token);
+            const chiTietXuat = await prisma.phieu.findMany({
+                where: {
+                    sId,
+                    loaiPhieu: 'px',
+                    trangThai: 'luu',
+                    sta: true,
+                },
+                include: {
+                    bangChiTiet: true,
+                    doiTac: true,
+                },
+                orderBy: {
+                    pId: 'desc'
+                }
+            });
+            if (chiTietXuat.length > 0) {
+                const res = chiTietXuat.map((item) => {
+                    const { soTien, thanhToan, soPhieu, bangChiTiet, doiTac } = item;
+                    const conNo = Number(soTien) - Number(thanhToan);
+                    const chiTietMapped = bangChiTiet.map((item) => {
+                        const { quyDoi, donGia, soLuong } = item;
+                        const thanhTien = Number(donGia) * Number(soLuong);
+                        return {
+                            ...item,
+                            quyDoi: Number(quyDoi),
+                            donGia: Number(donGia),
+                            soLuong: Number(soLuong),
+                            thanhTien,
+                            soPhieu,
+                        };
+                    });
+                    return {
+                        ...item,
+                        bangChiTiet: chiTietMapped,
+                        soTien: Number(soTien),
+                        thanhToan: Number(thanhToan),
+                        conNo,
+                    };
+                });
+                return this.extraService.response(200, 'chi tiết xuất', res);
+            }
+            else {
+                return this.extraService.response(404, 'not found', []);
+            }
+        }
+        catch (error) {
+            return this.extraService.response(500, 'lỗi', error);
+        }
+    }
     async timChiTietNhap(token, keyword) {
         try {
             const sId = await this.extraService.getSId(token);

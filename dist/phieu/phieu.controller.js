@@ -33,6 +33,12 @@ let PhieuController = class PhieuController {
     getPhieuNhapMoiTao(token) {
         return this.phieuService.getPhieuNhapMoiTao(token);
     }
+    getPhieuXuatMoiTao(token) {
+        return this.phieuService.getPhieuXuatMoiTao(token);
+    }
+    getPhieuNhap(token, pId) {
+        return this.phieuService.getPhieuNhap(token, +pId);
+    }
     suaChiTiet(token, body) {
         return this.phieuService.suaChiTiet(token, body);
     }
@@ -48,8 +54,8 @@ let PhieuController = class PhieuController {
     sortPhieu(token, body) {
         return this.phieuService.sortPhieu(token, body);
     }
-    demo(token, body) {
-        return this.phieuService.sortPhieu(token, body);
+    sortPhieuXuat(token, body) {
+        return this.phieuService.sortPhieuXuat(token, body);
     }
 };
 exports.PhieuController = PhieuController;
@@ -83,6 +89,21 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PhieuController.prototype, "getPhieuNhapMoiTao", null);
+__decorate([
+    (0, common_1.Get)('/get-phieu-xuat-moi-tao'),
+    __param(0, (0, common_1.Headers)('token')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], PhieuController.prototype, "getPhieuXuatMoiTao", null);
+__decorate([
+    (0, common_1.Get)('/get-phieu-nhap/:pId'),
+    __param(0, (0, common_1.Headers)('token')),
+    __param(1, (0, common_1.Param)('pId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:returntype", void 0)
+], PhieuController.prototype, "getPhieuNhap", null);
 __decorate([
     (0, common_1.Put)('sua-chi-tiet'),
     __param(0, (0, common_1.Headers)('token')),
@@ -124,13 +145,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PhieuController.prototype, "sortPhieu", null);
 __decorate([
-    (0, common_1.Post)('demo'),
+    (0, common_1.Post)('sort-phieu-xuat'),
     __param(0, (0, common_1.Headers)('token')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, create_phieu_dto_1.SortPhieuDto]),
     __metadata("design:returntype", void 0)
-], PhieuController.prototype, "demo", null);
+], PhieuController.prototype, "sortPhieuXuat", null);
 exports.PhieuController = PhieuController = __decorate([
     (0, swagger_1.ApiTags)('phieu'),
     (0, common_1.Controller)('phieu'),

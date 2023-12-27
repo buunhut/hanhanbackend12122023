@@ -27,6 +27,9 @@ let ChiTietController = class ChiTietController {
     getChiTietNhap(token) {
         return this.chiTietService.getChiTietNhap(token);
     }
+    getChiTietXuat(token) {
+        return this.chiTietService.getChiTietXuat(token);
+    }
     timChiTietNhap(token, keyword) {
         return this.chiTietService.timChiTietNhap(token, keyword);
     }
@@ -53,6 +56,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ChiTietController.prototype, "getChiTietNhap", null);
+__decorate([
+    (0, common_1.Get)('/get-chi-tiet-xuat'),
+    __param(0, (0, common_1.Headers)('token')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ChiTietController.prototype, "getChiTietXuat", null);
 __decorate([
     (0, common_1.Get)('/tim-chi-tiet-nhap/:keyword'),
     __param(0, (0, common_1.Headers)('token')),

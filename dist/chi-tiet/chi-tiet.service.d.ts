@@ -14,6 +14,11 @@ export declare class ChiTietService {
         message: string;
         content: any;
     }>;
+    getChiTietXuat(token: string): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
     timChiTietNhap(token: string, keyword: string): Promise<{
         statusCode: number;
         message: string;

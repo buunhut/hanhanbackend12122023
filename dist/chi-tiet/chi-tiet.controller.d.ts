@@ -13,6 +13,11 @@ export declare class ChiTietController {
         message: string;
         content: any;
     }>;
+    getChiTietXuat(token: string): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
     timChiTietNhap(token: string, keyword: string): Promise<{
         statusCode: number;
         message: string;

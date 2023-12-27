@@ -23,6 +23,16 @@ export declare class PhieuController {
         message: string;
         content: any;
     }>;
+    getPhieuXuatMoiTao(token: string): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
+    getPhieuNhap(token: string, pId: number): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
     suaChiTiet(token: string, body: SuaChiTietDto): Promise<{
         statusCode: number;
         message: string;
@@ -48,7 +58,7 @@ export declare class PhieuController {
         message: string;
         content: any;
     }>;
-    demo(token: string, body: SortPhieuDto): Promise<{
+    sortPhieuXuat(token: string, body: SortPhieuDto): Promise<{
         statusCode: number;
         message: string;
         content: any;

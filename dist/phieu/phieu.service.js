@@ -144,11 +144,13 @@ let PhieuService = class PhieuService {
                     trangThai: 'moiTao',
                     sId,
                     sta: true,
+                    loaiPhieu: 'pn'
                 },
                 include: {
                     bangChiTiet: {
                         where: {
-                            sta: true
+                            sta: true,
+                            loaiPhieu: 'pn'
                         }
                     },
                     doiTac: true
@@ -189,6 +191,60 @@ let PhieuService = class PhieuService {
             return this.extraService.response(500, 'lỗi', error);
         }
     }
+    async getPhieuXuatMoiTao(token) {
+        try {
+            const sId = await this.extraService.getSId(token);
+            const phieuXuatMoiTao = await prisma.phieu.findMany({
+                where: {
+                    trangThai: 'moiTao',
+                    sId,
+                    sta: true,
+                    loaiPhieu: 'px'
+                },
+                include: {
+                    bangChiTiet: {
+                        where: {
+                            sta: true,
+                            loaiPhieu: 'px'
+                        }
+                    },
+                    doiTac: true
+                },
+                orderBy: {
+                    pId: 'desc'
+                }
+            });
+            if (phieuXuatMoiTao.length > 0) {
+                const res = phieuXuatMoiTao.map((item) => {
+                    const { soTien, thanhToan, bangChiTiet } = item;
+                    const chiTietMapped = bangChiTiet.map((item) => {
+                        const { quyDoi, soLuong, donGia } = item;
+                        return {
+                            ...item,
+                            quyDoi: Number(quyDoi),
+                            soLuong: Number(soLuong),
+                            donGia: Number(donGia),
+                            thanhTien: Number(soLuong) * Number(donGia)
+                        };
+                    });
+                    return {
+                        ...item,
+                        bangChiTiet: chiTietMapped,
+                        soTien: Number(soTien),
+                        thanhToan: Number(thanhToan),
+                        conNo: Number(soTien) - Number(thanhToan)
+                    };
+                });
+                return this.extraService.response(200, 'phiếu xuất mới tạo', res);
+            }
+            else {
+                return this.extraService.response(404, 'not found', []);
+            }
+        }
+        catch (error) {
+            return this.extraService.response(500, 'lỗi', error);
+        }
+    }
     async suaChiTiet(token, body) {
         try {
             const sId = await this.extraService.getSId(token);
@@ -215,8 +271,52 @@ let PhieuService = class PhieuService {
             return this.extraService.response(500, 'lỗi', error);
         }
     }
-    findOne(id) {
-        return `This action returns a #${id} phieu`;
+    async getPhieuNhap(token, pId) {
+        try {
+            const sId = await this.extraService.getSId(token);
+            const phieu = await prisma.phieu.findFirst({
+                where: {
+                    sId,
+                    sta: true,
+                    pId
+                },
+                include: {
+                    bangChiTiet: {
+                        where: {
+                            sta: true
+                        }
+                    },
+                    doiTac: true
+                }
+            });
+            if (phieu) {
+                const { soTien, thanhToan, bangChiTiet } = phieu;
+                const bangChiTietMapped = bangChiTiet.map((item) => {
+                    const { quyDoi, soLuong, donGia } = item;
+                    return {
+                        ...item,
+                        quyDoi: Number(quyDoi),
+                        soLuong: Number(soLuong),
+                        donGia: Number(donGia),
+                        thanhTien: Number(soLuong) * Number(donGia)
+                    };
+                });
+                const res = {
+                    ...phieu,
+                    bangChiTiet: bangChiTietMapped,
+                    soTien: Number(soTien),
+                    thanhToan: Number(thanhToan),
+                    conNo: Number(soTien) - Number(thanhToan)
+                };
+                return this.extraService.response(200, 'phiếu nhập', res);
+            }
+            else {
+                return this.extraService.response(404, 'not found', null);
+            }
+        }
+        catch (error) {
+            return this.extraService.response(500, 'lỗi', error);
+        }
     }
     update(id, updatePhieuDto) {
         return `This action updates a #${id} phieu`;
@@ -264,20 +364,36 @@ let PhieuService = class PhieuService {
                 }
             });
             thongTinChiTiet.forEach(async (item) => {
-                const { spId, kId, soLuong, quyDoi } = item;
+                const { spId, kId, soLuong, quyDoi, loaiPhieu } = item;
                 const qty = Number(soLuong) * Number(quyDoi);
-                const congKho = await prisma.sanPham.updateMany({
-                    where: {
-                        kId,
-                        sId,
-                        sta: true
-                    },
-                    data: {
-                        soLuong: {
-                            increment: qty
+                if (loaiPhieu === 'pn') {
+                    const congKho = await prisma.sanPham.updateMany({
+                        where: {
+                            kId,
+                            sId,
+                            sta: true
+                        },
+                        data: {
+                            soLuong: {
+                                increment: qty
+                            }
                         }
-                    }
-                });
+                    });
+                }
+                else {
+                    const truKho = await prisma.sanPham.updateMany({
+                        where: {
+                            kId,
+                            sId,
+                            sta: true
+                        },
+                        data: {
+                            soLuong: {
+                                decrement: qty
+                            }
+                        }
+                    });
+                }
             });
             const data = {
                 ...body,
@@ -382,7 +498,7 @@ let PhieuService = class PhieuService {
             });
             if (chiTietNhap.length > 0) {
                 if (body.locNo) {
-                    const res = chiTietNhap.forEach((item) => {
+                    const res = chiTietNhap.map((item) => {
                         const { soTien, thanhToan, soPhieu, bangChiTiet, doiTac } = item;
                         const conNo = Number(soTien) - Number(thanhToan);
                         if (conNo > 0) {
@@ -406,7 +522,9 @@ let PhieuService = class PhieuService {
                                 conNo,
                             };
                         }
-                    });
+                    }).filter(Boolean);
+                    ;
+                    console.log(res);
                     if (res !== undefined) {
                         return this.extraService.response(200, 'chi tiết nhập', res);
                     }
@@ -439,6 +557,120 @@ let PhieuService = class PhieuService {
                         };
                     });
                     return this.extraService.response(200, 'chi tiết nhập', res);
+                }
+            }
+            else {
+                return this.extraService.response(404, 'not found', []);
+            }
+        }
+        catch (error) {
+            return this.extraService.response(500, 'lỗi', error);
+        }
+    }
+    async sortPhieuXuat(token, body) {
+        try {
+            const sId = await this.extraService.getSId(token);
+            let whereCondition = {
+                sId,
+                loaiPhieu: 'px',
+                trangThai: 'luu',
+                sta: true,
+            };
+            if (body.dtId) {
+                whereCondition.dtId = body.dtId;
+            }
+            if (body.from) {
+                if (body.to) {
+                    whereCondition.ngay = {
+                        gte: `${body.from}T00:00:00.000Z`,
+                        lte: `${body.to}T00:00:00.000Z`,
+                    };
+                }
+                else {
+                    whereCondition.ngay = `${body.from}T00:00:00.000Z`;
+                }
+            }
+            if (body.to) {
+                if (body.from) {
+                    whereCondition.ngay = {
+                        gte: `${body.from}T00:00:00.000Z`,
+                        lte: `${body.to}T00:00:00.000Z`,
+                    };
+                }
+                else {
+                    whereCondition.ngay = `${body.to}T00:00:00.000Z`;
+                }
+            }
+            const chiTietXuat = await prisma.phieu.findMany({
+                where: whereCondition,
+                include: {
+                    bangChiTiet: true,
+                    doiTac: true,
+                },
+                orderBy: {
+                    pId: 'desc'
+                }
+            });
+            if (chiTietXuat.length > 0) {
+                if (body.locNo) {
+                    const res = chiTietXuat.map((item) => {
+                        const { soTien, thanhToan, soPhieu, bangChiTiet, doiTac } = item;
+                        const conNo = Number(soTien) - Number(thanhToan);
+                        if (conNo > 0) {
+                            const chiTietMapped = bangChiTiet.map((item) => {
+                                const { quyDoi, donGia, soLuong } = item;
+                                const thanhTien = Number(donGia) * Number(soLuong);
+                                return {
+                                    ...item,
+                                    quyDoi: Number(quyDoi),
+                                    donGia: Number(donGia),
+                                    soLuong: Number(soLuong),
+                                    thanhTien,
+                                    soPhieu,
+                                };
+                            });
+                            return {
+                                ...item,
+                                bangChiTiet: chiTietMapped,
+                                soTien: Number(soTien),
+                                thanhToan: Number(thanhToan),
+                                conNo,
+                            };
+                        }
+                    })
+                        .filter(Boolean);
+                    if (res !== undefined) {
+                        return this.extraService.response(200, 'chi tiết xuất', res);
+                    }
+                    else {
+                        return this.extraService.response(404, 'not found', []);
+                    }
+                }
+                else {
+                    const res = chiTietXuat.map((item) => {
+                        const { soTien, thanhToan, soPhieu, bangChiTiet, doiTac } = item;
+                        const conNo = Number(soTien) - Number(thanhToan);
+                        const chiTietMapped = bangChiTiet.map((item) => {
+                            const { quyDoi, donGia, soLuong } = item;
+                            const thanhTien = Number(donGia) * Number(soLuong);
+                            return {
+                                ...item,
+                                quyDoi: Number(quyDoi),
+                                donGia: Number(donGia),
+                                soLuong: Number(soLuong),
+                                thanhTien,
+                                soPhieu,
+                            };
+                        });
+                        return {
+                            ...item,
+                            bangChiTiet: chiTietMapped,
+                            soTien: Number(soTien),
+                            thanhToan: Number(thanhToan),
+                            conNo,
+                        };
+                    });
+                    return this.extraService.response(200, 'chi tiết xuất', res);
                 }
             }
             else {

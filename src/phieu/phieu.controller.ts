@@ -27,6 +27,16 @@ export class PhieuController {
     return this.phieuService.getPhieuNhapMoiTao(token);
   }
 
+  @Get('/get-phieu-xuat-moi-tao')
+  getPhieuXuatMoiTao(@Headers('token') token: string) {
+    return this.phieuService.getPhieuXuatMoiTao(token);
+  }
+
+  @Get('/get-phieu-nhap/:pId')
+  getPhieuNhap(@Headers('token') token: string, @Param('pId') pId: number) {
+    return this.phieuService.getPhieuNhap(token, +pId);
+  }
+
   @Put('sua-chi-tiet')
   suaChiTiet(@Headers('token') token: string, @Body() body: SuaChiTietDto) {
     return this.phieuService.suaChiTiet(token, body);
@@ -49,12 +59,12 @@ export class PhieuController {
     return this.phieuService.sortPhieu(token, body);
 
   }
-  
-  @Post('demo')
-  demo(@Headers('token') token:string, @Body() body: SortPhieuDto) {
-    return this.phieuService.sortPhieu(token, body);
+  @Post('sort-phieu-xuat')
+  sortPhieuXuat(@Headers('token') token:string, @Body() body: SortPhieuDto) {
+    return this.phieuService.sortPhieuXuat(token, body);
 
   }
+  
 
 
 
