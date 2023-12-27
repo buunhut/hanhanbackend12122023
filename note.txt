@@ -1,1 +1,15 @@
+docker build . -t img-be
 docker run -d -p 8080:8080 -e DATABASE_URL=mysql://root:DungTatCuaEm1@61.14.233.80:3306/db_hanhan_20112023?schema=public --name cons-be img-be
+
+docker build . -t img-html
+docker run -d -p 3100:80 --name cons-fe img-html
+
+
+//=============================
+// CÁCH KẾT NỐI VỚI CSDL
+//=============================
+// B1: yarn add prisma @prisma/client
+// B2: yarn prisma init
+// B3: sửa lại chuỗi kết nối và schema.prisma mục provider và file ".env"
+// B4: yarn prisma db pull
+// B5: yarn prisma generate
