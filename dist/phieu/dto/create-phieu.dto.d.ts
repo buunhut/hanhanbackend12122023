@@ -8,6 +8,10 @@ export declare class SuaChiTietDto {
     donGia: number;
     soLuong: number;
 }
+export declare class SuaDoiTacDto {
+    pId: number;
+    dtId: number;
+}
 export declare class LuuPhieuDto {
     pId: number;
     soTien: number;

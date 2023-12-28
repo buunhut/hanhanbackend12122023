@@ -1,5 +1,5 @@
 import { PhieuService } from './phieu.service';
-import { CreatePhieuDto, LuuPhieuDto, SortPhieuDto, SuaChiTietDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
+import { CreatePhieuDto, LuuPhieuDto, SortPhieuDto, SuaChiTietDto, SuaDoiTacDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
 export declare class PhieuController {
     private readonly phieuService;
     constructor(phieuService: PhieuService);
@@ -34,6 +34,11 @@ export declare class PhieuController {
         content: any;
     }>;
     suaChiTiet(token: string, body: SuaChiTietDto): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
+    suaDoiTac(token: string, body: SuaDoiTacDto): Promise<{
         statusCode: number;
         message: string;
         content: any;

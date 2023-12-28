@@ -42,6 +42,9 @@ let PhieuController = class PhieuController {
     suaChiTiet(token, body) {
         return this.phieuService.suaChiTiet(token, body);
     }
+    suaDoiTac(token, body) {
+        return this.phieuService.suaDoiTac(token, body);
+    }
     xoaPhieuMoiTao(token, pId) {
         return this.phieuService.xoaPhieuMoiTao(token, +pId);
     }
@@ -112,6 +115,14 @@ __decorate([
     __metadata("design:paramtypes", [String, create_phieu_dto_1.SuaChiTietDto]),
     __metadata("design:returntype", void 0)
 ], PhieuController.prototype, "suaChiTiet", null);
+__decorate([
+    (0, common_1.Put)('sua-doi-tac'),
+    __param(0, (0, common_1.Headers)('token')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, create_phieu_dto_1.SuaDoiTacDto]),
+    __metadata("design:returntype", void 0)
+], PhieuController.prototype, "suaDoiTac", null);
 __decorate([
     (0, common_1.Delete)('xoa-phieu-moi-tao/:pId'),
     __param(0, (0, common_1.Headers)('token')),

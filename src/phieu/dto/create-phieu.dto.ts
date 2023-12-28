@@ -16,6 +16,12 @@ export class SuaChiTietDto {
     @ApiProperty({type: 'number'})
     soLuong: number
 }
+export class SuaDoiTacDto {
+    @ApiProperty({type: 'number'})
+    pId: number
+    @ApiProperty({type: 'number'})
+    dtId: number
+}
 export class LuuPhieuDto {
     @ApiProperty({type: 'number'})
     pId: number

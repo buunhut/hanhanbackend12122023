@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePhieuDto, LuuPhieuDto, SortPhieuDto, SuaChiTietDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
+import { CreatePhieuDto, LuuPhieuDto, SortPhieuDto, SuaChiTietDto, SuaDoiTacDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
 import { UpdatePhieuDto } from './dto/update-phieu.dto';
 import { ExtraService } from 'src/service';
 import { PrismaClient } from '@prisma/client';
@@ -266,6 +266,45 @@ export class PhieuService {
       } else {
         return this.extraService.response(500, 'lỗi', null)
       }
+      
+    } catch (error) {
+      return this.extraService.response(500, 'lỗi', error)
+    }
+  }
+
+  async suaDoiTac(token: string, body: SuaDoiTacDto) {
+    try {
+      const sId = await this.extraService.getSId(token)
+      const {pId, dtId} = body
+      const thongTinDoiTac = await prisma.doiTac.findFirst({
+        where: {
+          sId,
+          sta: true,
+          dtId,
+        }
+      })
+      if(thongTinDoiTac) {
+        const {maDoiTac} = thongTinDoiTac
+        const capNhat = await prisma.phieu.updateMany({
+          where: {
+            pId,
+            sId,
+
+          },
+          data: {
+            maDoiTac,
+            dtId
+          }
+        })
+        if(capNhat.count > 0) {
+          return this.extraService.response(200, 'done', maDoiTac)
+        } else {
+          return this.extraService.response(500, 'lỗi', null)
+        }
+      } else {
+        return this.extraService.response(404, 'not found', null)
+      }
+
       
     } catch (error) {
       return this.extraService.response(500, 'lỗi', error)

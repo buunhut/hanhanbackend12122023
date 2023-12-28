@@ -1,4 +1,4 @@
-import { CreatePhieuDto, LuuPhieuDto, SortPhieuDto, SuaChiTietDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
+import { CreatePhieuDto, LuuPhieuDto, SortPhieuDto, SuaChiTietDto, SuaDoiTacDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
 import { UpdatePhieuDto } from './dto/update-phieu.dto';
 import { ExtraService } from 'src/service';
 export declare class PhieuService {
@@ -31,6 +31,11 @@ export declare class PhieuService {
         content: any;
     }>;
     suaChiTiet(token: string, body: SuaChiTietDto): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
+    suaDoiTac(token: string, body: SuaDoiTacDto): Promise<{
         statusCode: number;
         message: string;
         content: any;

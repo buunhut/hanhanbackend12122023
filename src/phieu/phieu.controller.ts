@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Headers, Put } from '@nestjs/common';
 import { PhieuService } from './phieu.service';
-import { CreatePhieuDto, LuuPhieuDto, SortPhieuDto, SuaChiTietDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
+import { CreatePhieuDto, LuuPhieuDto, SortPhieuDto, SuaChiTietDto, SuaDoiTacDto, TraNoMotPhieuDto } from './dto/create-phieu.dto';
 import { UpdatePhieuDto } from './dto/update-phieu.dto';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -40,6 +40,10 @@ export class PhieuController {
   @Put('sua-chi-tiet')
   suaChiTiet(@Headers('token') token: string, @Body() body: SuaChiTietDto) {
     return this.phieuService.suaChiTiet(token, body);
+  }
+  @Put('sua-doi-tac')
+  suaDoiTac(@Headers('token') token: string, @Body() body: SuaDoiTacDto) {
+    return this.phieuService.suaDoiTac(token, body);
   }
 
   @Delete('xoa-phieu-moi-tao/:pId')

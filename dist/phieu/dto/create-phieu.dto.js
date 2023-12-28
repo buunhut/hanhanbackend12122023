@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SortPhieuDto = exports.TraNoMotPhieuDto = exports.LuuPhieuDto = exports.SuaChiTietDto = exports.CreatePhieuDto = void 0;
+exports.SortPhieuDto = exports.TraNoMotPhieuDto = exports.LuuPhieuDto = exports.SuaDoiTacDto = exports.SuaChiTietDto = exports.CreatePhieuDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 class CreatePhieuDto {
 }
@@ -41,6 +41,17 @@ __decorate([
     (0, swagger_1.ApiProperty)({ type: 'number' }),
     __metadata("design:type", Number)
 ], SuaChiTietDto.prototype, "soLuong", void 0);
+class SuaDoiTacDto {
+}
+exports.SuaDoiTacDto = SuaDoiTacDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({ type: 'number' }),
+    __metadata("design:type", Number)
+], SuaDoiTacDto.prototype, "pId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ type: 'number' }),
+    __metadata("design:type", Number)
+], SuaDoiTacDto.prototype, "dtId", void 0);
 class LuuPhieuDto {
 }
 exports.LuuPhieuDto = LuuPhieuDto;
