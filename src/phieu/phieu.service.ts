@@ -151,6 +151,13 @@ export class PhieuService {
             where: {
               sta: true,
               loaiPhieu: 'pn'
+            },
+            include: {
+              sanPham: {
+                select: {
+                  hinhAnh: true
+                }
+              }
             }
           },
           doiTac: true
@@ -163,13 +170,14 @@ export class PhieuService {
         const res = phieuNhapMoiTao.map((item) => {
           const {soTien, thanhToan, bangChiTiet} = item
           const chiTietMapped = bangChiTiet.map((item) => {
-            const {quyDoi, soLuong, donGia} = item
+            const {quyDoi, soLuong, donGia, sanPham} = item
             return {
               ...item,
               quyDoi: Number(quyDoi),
               soLuong: Number(soLuong),
               donGia: Number(donGia),
-              thanhTien: Number(soLuong) * Number(donGia)
+              thanhTien: Number(soLuong) * Number(donGia),
+              hinhAnh: sanPham.hinhAnh
             }
           })
           return {
@@ -180,7 +188,7 @@ export class PhieuService {
             conNo: Number(soTien) - Number(thanhToan)
           }
         })
-        console.log(res)
+        // console.log(res)
         return this.extraService.response(200,'phiếu nhập mới tạo', res)
       } else {
         return this.extraService.response(404, 'not found', [])
@@ -208,7 +216,13 @@ export class PhieuService {
             where: {
               sta: true,
               loaiPhieu: 'px'
-
+            },
+            include: {
+              sanPham: {
+                select: {
+                  hinhAnh: true
+                }
+              }
             }
           },
           doiTac: true
@@ -221,13 +235,14 @@ export class PhieuService {
         const res = phieuXuatMoiTao.map((item) => {
           const {soTien, thanhToan, bangChiTiet} = item
           const chiTietMapped = bangChiTiet.map((item) => {
-            const {quyDoi, soLuong, donGia} = item
+            const {quyDoi, soLuong, donGia, sanPham} = item
             return {
               ...item,
               quyDoi: Number(quyDoi),
               soLuong: Number(soLuong),
               donGia: Number(donGia),
-              thanhTien: Number(soLuong) * Number(donGia)
+              thanhTien: Number(soLuong) * Number(donGia),
+              hinhAnh: sanPham.hinhAnh
             }
           })
           return {
@@ -238,7 +253,6 @@ export class PhieuService {
             conNo: Number(soTien) - Number(thanhToan)
           }
         })
-        // console.log(res)
         return this.extraService.response(200,'phiếu xuất mới tạo', res)
       } else {
         return this.extraService.response(404, 'not found', [])
