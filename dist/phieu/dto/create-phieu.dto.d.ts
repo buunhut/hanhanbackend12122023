@@ -1,6 +1,5 @@
 export declare class CreatePhieuDto {
     ngay: Date;
-    dtId: number;
     loaiPhieu: string;
 }
 export declare class SuaChiTietDto {

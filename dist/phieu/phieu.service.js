@@ -100,15 +100,7 @@ let PhieuService = class PhieuService {
     async taoPhieu(token, body) {
         try {
             const sId = await this.extraService.getSId(token);
-            const { dtId, loaiPhieu } = body;
-            const thongTinDoiTac = await prisma.doiTac.findFirst({
-                where: {
-                    dtId,
-                    sId,
-                    sta: true
-                }
-            });
-            const { maDoiTac } = thongTinDoiTac;
+            const { loaiPhieu } = body;
             const count = await prisma.phieu.count({
                 where: {
                     sId,
@@ -118,10 +110,10 @@ let PhieuService = class PhieuService {
             const soPhieu = loaiPhieu + (count + 1);
             const data = {
                 ...body,
-                maDoiTac,
                 soPhieu,
-                sId
+                sId,
             };
+            console.log(data);
             const taoPhieu = await prisma.phieu.create({
                 data
             });

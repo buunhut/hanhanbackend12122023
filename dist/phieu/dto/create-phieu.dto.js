@@ -19,10 +19,6 @@ __decorate([
     __metadata("design:type", Date)
 ], CreatePhieuDto.prototype, "ngay", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ type: 'number' }),
-    __metadata("design:type", Number)
-], CreatePhieuDto.prototype, "dtId", void 0);
-__decorate([
     (0, swagger_1.ApiProperty)({ type: 'string' }),
     __metadata("design:type", String)
 ], CreatePhieuDto.prototype, "loaiPhieu", void 0);

@@ -3,8 +3,8 @@ import { ApiProperty } from "@nestjs/swagger";
 export class CreatePhieuDto {
     @ApiProperty({type: 'string', format: 'date'})
     ngay: Date
-    @ApiProperty({type: 'number'})
-    dtId: number
+    // @ApiProperty({type: 'number'})
+    // dtId: number
     @ApiProperty({type: 'string'})
     loaiPhieu: string
 }
