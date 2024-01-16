@@ -209,7 +209,8 @@ let PhieuService = class PhieuService {
                         include: {
                             sanPham: {
                                 select: {
-                                    hinhAnh: true
+                                    hinhAnh: true,
+                                    soLuong: true,
                                 }
                             }
                         }
@@ -231,7 +232,12 @@ let PhieuService = class PhieuService {
                             soLuong: Number(soLuong),
                             donGia: Number(donGia),
                             thanhTien: Number(soLuong) * Number(donGia),
-                            hinhAnh: sanPham.hinhAnh
+                            hinhAnh: sanPham.hinhAnh,
+                            sanPham: {
+                                hinhAnh: sanPham.hinhAnh,
+                                soLuong: Number(sanPham.soLuong)
+                            },
+                            tonKho: Number(sanPham.soLuong)
                         };
                     });
                     return {
