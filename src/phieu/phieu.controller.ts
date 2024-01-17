@@ -68,6 +68,11 @@ export class PhieuController {
     return this.phieuService.sortPhieuXuat(token, body);
 
   }
+  @Post('sort-phieu-nhap')
+  sortPhieuNhap(@Headers('token') token:string, @Body() body: SortPhieuDto) {
+    return this.phieuService.sortPhieuNhap(token, body);
+
+  }
   
 
 

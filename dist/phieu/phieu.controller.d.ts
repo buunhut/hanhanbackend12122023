@@ -68,4 +68,9 @@ export declare class PhieuController {
         message: string;
         content: any;
     }>;
+    sortPhieuNhap(token: string, body: SortPhieuDto): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
 }
