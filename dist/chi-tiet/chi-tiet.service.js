@@ -88,7 +88,11 @@ let ChiTietService = class ChiTietService {
                     sta: true,
                 },
                 include: {
-                    bangChiTiet: true,
+                    bangChiTiet: {
+                        where: {
+                            sta: true
+                        }
+                    },
                     doiTac: true,
                 },
                 orderBy: {
@@ -140,7 +144,11 @@ let ChiTietService = class ChiTietService {
                     sta: true,
                 },
                 include: {
-                    bangChiTiet: true,
+                    bangChiTiet: {
+                        where: {
+                            sta: true
+                        }
+                    },
                     doiTac: true,
                 },
                 orderBy: {
@@ -203,7 +211,11 @@ let ChiTietService = class ChiTietService {
                     ]
                 },
                 include: {
-                    bangChiTiet: true,
+                    bangChiTiet: {
+                        where: {
+                            sta: true
+                        }
+                    },
                     doiTac: true,
                 },
                 orderBy: {
@@ -314,7 +326,6 @@ let ChiTietService = class ChiTietService {
     }
     async remove(token, dId) {
         try {
-            console.log(dId);
             const sId = await this.extraService.getSId(token);
             const xoa = await prisma.bangChiTiet.updateMany({
                 where: {

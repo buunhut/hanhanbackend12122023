@@ -77,10 +77,17 @@ export class ChiTietService {
           loaiPhieu: 'pn',
           trangThai: 'luu',
           sta: true,
+          
         },
         include: {
-          bangChiTiet: true,
+          bangChiTiet: {
+            where: {
+              sta: true
+            }
+          },
+          
           doiTac: true,
+          
         },
         orderBy:{
           pId: 'desc'
@@ -131,7 +138,11 @@ export class ChiTietService {
           sta: true,
         },
         include: {
-          bangChiTiet: true,
+          bangChiTiet: {
+            where: {
+              sta: true
+            }
+          },
           doiTac: true,
         },
         orderBy:{
@@ -195,7 +206,11 @@ export class ChiTietService {
           ]
         },
         include: {
-          bangChiTiet: true,
+          bangChiTiet: {
+            where: {
+              sta: true
+            }
+          },
           doiTac: true,
         },
         orderBy:{
@@ -311,7 +326,7 @@ export class ChiTietService {
 
   async remove(token: string, dId: number) {
     try {
-      console.log(dId);
+      // console.log(dId);
       const sId = await this.extraService.getSId(token);
       const xoa = await prisma.bangChiTiet.updateMany({
         where: {
