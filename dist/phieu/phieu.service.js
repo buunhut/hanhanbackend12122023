@@ -211,6 +211,7 @@ let PhieuService = class PhieuService {
                                 select: {
                                     hinhAnh: true,
                                     soLuong: true,
+                                    giaNhap: true,
                                 }
                             }
                         }
@@ -235,9 +236,11 @@ let PhieuService = class PhieuService {
                             hinhAnh: sanPham.hinhAnh,
                             sanPham: {
                                 hinhAnh: sanPham.hinhAnh,
-                                soLuong: Number(sanPham.soLuong)
+                                soLuong: Number(sanPham.soLuong),
+                                giaNhap: Number(sanPham.giaNhap)
                             },
-                            tonKho: Number(sanPham.soLuong)
+                            tonKho: Number(sanPham.soLuong),
+                            giaNhap: Number(sanPham.giaNhap)
                         };
                     });
                     return {
