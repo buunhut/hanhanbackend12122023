@@ -19,6 +19,7 @@ export class UsersService {
         where: {
           sho: true,
           sta: true,
+          // sId: 1
         },
         select: {
           spId: true,
@@ -116,10 +117,13 @@ export class UsersService {
         select: {
           tenDanhMuc: true,
           hinhAnh: true,
+          sId: true,
           thuongHieu: {
             select: {
               tenThuongHieu: true,
               hinhAnh: true,
+              sId: true,
+
               sanPham: {
                 select: {
                   spId: true,
@@ -147,7 +151,7 @@ export class UsersService {
       if (sanPhamByDanhMuc.length > 0) {
         const res = sanPhamByDanhMuc.map((item) => {
           const listSanPham = [];
-          const { tenDanhMuc, hinhAnh, thuongHieu } = item;
+          const { tenDanhMuc, hinhAnh, thuongHieu, sId } = item;
           thuongHieu.map((thuongHieuItem) => {
             const { sanPham } = thuongHieuItem;
             const sanPhamMapped = sanPham.map((sanPhamItem) => {
@@ -168,6 +172,7 @@ export class UsersService {
           return {
             tenDanhMuc,
             hinhAnh,
+            sId,
             sanPham: listSanPham,
           };
         });
@@ -191,6 +196,7 @@ export class UsersService {
         select: {
           tenThuongHieu: true,
           hinhAnh: true,
+          sId: true,
           sanPham: {
             select: {
               spId: true,

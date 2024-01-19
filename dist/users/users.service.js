@@ -125,10 +125,12 @@ let UsersService = class UsersService {
                 select: {
                     tenDanhMuc: true,
                     hinhAnh: true,
+                    sId: true,
                     thuongHieu: {
                         select: {
                             tenThuongHieu: true,
                             hinhAnh: true,
+                            sId: true,
                             sanPham: {
                                 select: {
                                     spId: true,
@@ -156,7 +158,7 @@ let UsersService = class UsersService {
             if (sanPhamByDanhMuc.length > 0) {
                 const res = sanPhamByDanhMuc.map((item) => {
                     const listSanPham = [];
-                    const { tenDanhMuc, hinhAnh, thuongHieu } = item;
+                    const { tenDanhMuc, hinhAnh, thuongHieu, sId } = item;
                     thuongHieu.map((thuongHieuItem) => {
                         const { sanPham } = thuongHieuItem;
                         const sanPhamMapped = sanPham.map((sanPhamItem) => {
@@ -176,6 +178,7 @@ let UsersService = class UsersService {
                     return {
                         tenDanhMuc,
                         hinhAnh,
+                        sId,
                         sanPham: listSanPham,
                     };
                 });
@@ -201,6 +204,7 @@ let UsersService = class UsersService {
                 select: {
                     tenThuongHieu: true,
                     hinhAnh: true,
+                    sId: true,
                     sanPham: {
                         select: {
                             spId: true,
