@@ -11,3 +11,7 @@ export declare class DangNhapDto {
     soDt: string;
     matKhau: string;
 }
+export declare class DemLuotTruyCapDto {
+    ngay: Date;
+    soLuong: number;
+}

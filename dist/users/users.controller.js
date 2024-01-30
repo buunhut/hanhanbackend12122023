@@ -42,6 +42,9 @@ let UsersController = class UsersController {
     dangNhap(body) {
         return this.usersService.dangNhap(body);
     }
+    demLuotTruyCap(body) {
+        return this.usersService.demLuotTruyCap(body);
+    }
 };
 exports.UsersController = UsersController;
 __decorate([
@@ -90,6 +93,13 @@ __decorate([
     __metadata("design:paramtypes", [create_user_dto_1.DangNhapDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "dangNhap", null);
+__decorate([
+    (0, common_1.Post)('dem-luot-truy-cap'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_dto_1.DemLuotTruyCapDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "demLuotTruyCap", null);
 exports.UsersController = UsersController = __decorate([
     (0, swagger_1.ApiTags)('users'),
     (0, common_1.Controller)('users'),

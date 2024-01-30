@@ -262,3 +262,9 @@ model users {
   diemTichLuy diemTichLuy[]
   donHang     donHang[]
 }
+
+model demLuotTruyCap {
+  cId     Int       @id @default(autoincrement())
+  ngay    DateTime? @db.Date
+  soLuong Int?
+}

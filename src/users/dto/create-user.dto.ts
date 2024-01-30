@@ -20,3 +20,9 @@ export class DangNhapDto {
   @ApiProperty({ type: 'string' })
   matKhau: string;
 }
+export class DemLuotTruyCapDto {
+  @ApiProperty({type: 'string', format: 'date-time'})
+  ngay: Date;
+  @ApiProperty({ type: 'number' })
+  soLuong: number;
+}

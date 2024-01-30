@@ -1,4 +1,4 @@
-import { CheckSoDtUserDto, CreateUserDto, DangNhapDto } from './dto/create-user.dto';
+import { CheckSoDtUserDto, CreateUserDto, DangNhapDto, DemLuotTruyCapDto } from './dto/create-user.dto';
 import { ExtraService } from 'src/service';
 export declare class UsersService {
     private readonly extraService;
@@ -34,6 +34,11 @@ export declare class UsersService {
         content: any;
     }>;
     dangNhap(body: DangNhapDto): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
+    demLuotTruyCap(body: DemLuotTruyCapDto): Promise<{
         statusCode: number;
         message: string;
         content: any;

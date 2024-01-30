@@ -345,6 +345,18 @@ let UsersService = class UsersService {
             return this.extraService.response(500, 'lỗi', error);
         }
     }
+    async demLuotTruyCap(body) {
+        try {
+            await prisma.demLuotTruyCap.create({
+                data: body
+            });
+            const counts = await prisma.demLuotTruyCap.count();
+            return this.extraService.response(200, 'lượt truy cập', counts);
+        }
+        catch (error) {
+            return this.extraService.response(500, 'lỗi', error);
+        }
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

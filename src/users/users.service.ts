@@ -1,10 +1,11 @@
 import { async } from 'rxjs';
 import { SanPham } from './../san-pham/entities/san-pham.entity';
 import { Injectable } from '@nestjs/common';
-import { CheckSoDtUserDto, CreateUserDto, DangNhapDto } from './dto/create-user.dto';
+import { CheckSoDtUserDto, CreateUserDto, DangNhapDto, DemLuotTruyCapDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ExtraService } from 'src/service';
 import { PrismaClient } from '@prisma/client';
+import { count } from 'console';
 
 const prisma = new PrismaClient();
 
@@ -340,5 +341,15 @@ export class UsersService {
     }
   }
 
-
+  async demLuotTruyCap (body : DemLuotTruyCapDto ) {
+    try {
+      await prisma.demLuotTruyCap.create({
+        data: body
+      })
+      const counts = await prisma.demLuotTruyCap.count()
+      return this.extraService.response(200, 'lượt truy cập', counts)
+    } catch (error) {
+      return this.extraService.response(500, 'lỗi', error)
+    }
+  }
 }

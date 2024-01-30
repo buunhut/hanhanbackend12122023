@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DangNhapDto = exports.CheckSoDtUserDto = exports.CreateUserDto = void 0;
+exports.DemLuotTruyCapDto = exports.DangNhapDto = exports.CheckSoDtUserDto = exports.CreateUserDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 class CreateUserDto {
 }
@@ -48,4 +48,15 @@ __decorate([
     (0, swagger_1.ApiProperty)({ type: 'string' }),
     __metadata("design:type", String)
 ], DangNhapDto.prototype, "matKhau", void 0);
+class DemLuotTruyCapDto {
+}
+exports.DemLuotTruyCapDto = DemLuotTruyCapDto;
+__decorate([
+    (0, swagger_1.ApiProperty)({ type: 'string', format: 'date-time' }),
+    __metadata("design:type", Date)
+], DemLuotTruyCapDto.prototype, "ngay", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ type: 'number' }),
+    __metadata("design:type", Number)
+], DemLuotTruyCapDto.prototype, "soLuong", void 0);
 //# sourceMappingURL=create-user.dto.js.map
