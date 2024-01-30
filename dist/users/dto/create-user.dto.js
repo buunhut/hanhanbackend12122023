@@ -59,4 +59,8 @@ __decorate([
     (0, swagger_1.ApiProperty)({ type: 'number' }),
     __metadata("design:type", Number)
 ], DemLuotTruyCapDto.prototype, "soLuong", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ type: 'string' }),
+    __metadata("design:type", String)
+], DemLuotTruyCapDto.prototype, "diaChi", void 0);
 //# sourceMappingURL=create-user.dto.js.map

@@ -267,4 +267,5 @@ model demLuotTruyCap {
   cId     Int       @id @default(autoincrement())
   ngay    DateTime? @db.Date
   soLuong Int?
+  diaChi  String?   @db.VarChar(255)
 }

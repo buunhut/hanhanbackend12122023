@@ -346,7 +346,11 @@ export class UsersService {
       await prisma.demLuotTruyCap.create({
         data: body
       })
-      const counts = await prisma.demLuotTruyCap.count()
+      const counts = await prisma.demLuotTruyCap.count({
+        where: {
+          diaChi: body.diaChi
+        }
+      })
       return this.extraService.response(200, 'lượt truy cập', counts)
     } catch (error) {
       return this.extraService.response(500, 'lỗi', error)

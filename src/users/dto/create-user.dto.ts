@@ -25,4 +25,6 @@ export class DemLuotTruyCapDto {
   ngay: Date;
   @ApiProperty({ type: 'number' })
   soLuong: number;
+  @ApiProperty({ type: 'string' })
+  diaChi: string;
 }

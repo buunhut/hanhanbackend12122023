@@ -14,4 +14,5 @@ export declare class DangNhapDto {
 export declare class DemLuotTruyCapDto {
     ngay: Date;
     soLuong: number;
+    diaChi: string;
 }
