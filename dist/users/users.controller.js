@@ -45,6 +45,18 @@ let UsersController = class UsersController {
     demLuotTruyCap(body) {
         return this.usersService.demLuotTruyCap(body);
     }
+    dangKyNhanLiXi(body) {
+        return this.usersService.dangKyNhanLiXi(body);
+    }
+    capNhatTienLiXi(body) {
+        return this.usersService.capNhatTienLiXi(body);
+    }
+    checkThongTin(body) {
+        return this.usersService.checkThongTin(body);
+    }
+    listNguoiThamGia() {
+        return this.usersService.listNguoiThamGia();
+    }
 };
 exports.UsersController = UsersController;
 __decorate([
@@ -100,6 +112,33 @@ __decorate([
     __metadata("design:paramtypes", [create_user_dto_1.DemLuotTruyCapDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "demLuotTruyCap", null);
+__decorate([
+    (0, common_1.Post)('dang-ky-nhan-li-xi'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_dto_1.DangKyNhanLiXiDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "dangKyNhanLiXi", null);
+__decorate([
+    (0, common_1.Post)('update-li-xi'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_dto_1.CapNhatTienLiXiDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "capNhatTienLiXi", null);
+__decorate([
+    (0, common_1.Post)('check-thong-tin'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_dto_1.CheckThongTinDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "checkThongTin", null);
+__decorate([
+    (0, common_1.Get)('get-list-nguoi-tham-gia'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "listNguoiThamGia", null);
 exports.UsersController = UsersController = __decorate([
     (0, swagger_1.ApiTags)('users'),
     (0, common_1.Controller)('users'),

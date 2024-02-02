@@ -1,5 +1,5 @@
 import { UsersService } from './users.service';
-import { CheckSoDtUserDto, CreateUserDto, DangNhapDto, DemLuotTruyCapDto } from './dto/create-user.dto';
+import { CapNhatTienLiXiDto, CheckSoDtUserDto, CheckThongTinDto, CreateUserDto, DangKyNhanLiXiDto, DangNhapDto, DemLuotTruyCapDto } from './dto/create-user.dto';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
@@ -39,6 +39,26 @@ export declare class UsersController {
         content: any;
     }>;
     demLuotTruyCap(body: DemLuotTruyCapDto): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
+    dangKyNhanLiXi(body: DangKyNhanLiXiDto): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
+    capNhatTienLiXi(body: CapNhatTienLiXiDto): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
+    checkThongTin(body: CheckThongTinDto): Promise<{
+        statusCode: number;
+        message: string;
+        content: any;
+    }>;
+    listNguoiThamGia(): Promise<{
         statusCode: number;
         message: string;
         content: any;

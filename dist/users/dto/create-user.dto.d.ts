@@ -16,3 +16,20 @@ export declare class DemLuotTruyCapDto {
     soLuong: number;
     diaChi: string;
 }
+export declare class DangKyNhanLiXiDto {
+    ngay: Date;
+    hoVaTen: string;
+    soDienThoai: string;
+    soTaiKhoan: string;
+    nganHang: string;
+    liXi: number;
+    loiChuc: string;
+}
+export declare class CapNhatTienLiXiDto {
+    lxId: number;
+    liXi: number;
+    ghiChu: string;
+}
+export declare class CheckThongTinDto {
+    thongTin: string;
+}

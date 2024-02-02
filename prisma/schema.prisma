@@ -265,7 +265,21 @@ model users {
 
 model demLuotTruyCap {
   cId     Int       @id @default(autoincrement())
-  ngay    DateTime? @db.Date
+  ngay    DateTime? @db.DateTime(0)
   soLuong Int?
   diaChi  String?   @db.VarChar(255)
+}
+
+model liXi {
+  lxId        Int       @id @default(autoincrement())
+  ngay        DateTime? @db.DateTime(0)
+  hoVaTen     String?   @db.VarChar(100)
+  soDienThoai String?   @db.VarChar(12)
+  soTaiKhoan  String?   @db.VarChar(20)
+  nganHang    String?   @db.VarChar(20)
+  loiChuc     String?   @db.VarChar(255)
+  liXi        Int?
+  ghiChu      String?   @db.VarChar(20)
+  xuLy        Boolean?  @default(false)
+  sta         Boolean?  @default(true)
 }

@@ -361,6 +361,122 @@ let UsersService = class UsersService {
             return this.extraService.response(500, 'lỗi', error);
         }
     }
+    async checkThongTin(body) {
+        try {
+            const { thongTin } = body;
+            const check = await prisma.liXi.findFirst({
+                where: {
+                    OR: [
+                        {
+                            hoVaTen: thongTin,
+                            liXi: {
+                                gt: 0
+                            }
+                        },
+                        {
+                            soTaiKhoan: thongTin,
+                            liXi: {
+                                gt: 0
+                            }
+                        }
+                    ]
+                }
+            });
+            if (check) {
+                return this.extraService.response(209, 'đã đăng ký', thongTin);
+            }
+            else {
+                return this.extraService.response(200, 'hợp lệ', thongTin);
+            }
+        }
+        catch (error) {
+            return this.extraService.response(500, 'lỗi', error);
+        }
+    }
+    async dangKyNhanLiXi(body) {
+        try {
+            const { hoVaTen, soTaiKhoan } = body;
+            const checkHoVaTen = await prisma.liXi.findFirst({
+                where: {
+                    hoVaTen,
+                    liXi: {
+                        gt: 0
+                    }
+                }
+            });
+            if (checkHoVaTen) {
+                return this.extraService.response(209, 'đã tồn tại', checkHoVaTen);
+            }
+            else {
+                const checkSoTaiKhoan = await prisma.liXi.findFirst({
+                    where: {
+                        soTaiKhoan,
+                        liXi: {
+                            gt: 0
+                        }
+                    }
+                });
+                if (checkSoTaiKhoan) {
+                    return this.extraService.response(208, 'đã tồn tại', checkSoTaiKhoan);
+                }
+                else {
+                    const luuThongTin = await prisma.liXi.create({
+                        data: body
+                    });
+                    if (luuThongTin) {
+                        return this.extraService.response(200, 'đã lưu', luuThongTin);
+                    }
+                    else {
+                        return this.extraService.response(500, 'lỗi', []);
+                    }
+                }
+            }
+        }
+        catch (error) {
+            this.extraService.response(500, 'lỗi rồi ku', error);
+        }
+    }
+    async capNhatTienLiXi(body) {
+        try {
+            const { lxId, liXi, ghiChu } = body;
+            const update = await prisma.liXi.updateMany({
+                where: {
+                    lxId
+                },
+                data: {
+                    liXi,
+                    ghiChu
+                }
+            });
+            if (update.count > 0) {
+                return this.extraService.response(200, 'đã cập nhật', body);
+            }
+            else {
+                return this.extraService.response(500, 'lỗi', []);
+            }
+        }
+        catch (error) {
+            this.extraService.response(500, 'lỗi', error);
+        }
+    }
+    async listNguoiThamGia() {
+        try {
+            const list = await prisma.liXi.findMany({
+                where: {
+                    liXi: {
+                        gt: 0
+                    }
+                },
+                orderBy: {
+                    lxId: 'desc'
+                }
+            });
+            return this.extraService.response(200, 'list', list);
+        }
+        catch (error) {
+            return this.extraService.response(500, 'lỗi', error);
+        }
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
