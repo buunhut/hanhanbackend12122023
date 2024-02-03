@@ -393,17 +393,17 @@ export class UsersService {
   async dangKyNhanLiXi (body: DangKyNhanLiXiDto) {
     try {
       const {hoVaTen, soTaiKhoan} = body
-      const checkHoVaTen = await prisma.liXi.findFirst({
-        where: {
-          hoVaTen,
-          liXi: {
-            gt: 0
-          }
-        }
-      })
-      if(checkHoVaTen) {
-        return this.extraService.response(209, 'đã tồn tại', checkHoVaTen)
-      } else {
+      // const checkHoVaTen = await prisma.liXi.findFirst({
+      //   where: {
+      //     hoVaTen,
+      //     liXi: {
+      //       gt: 0
+      //     }
+      //   }
+      // })
+      // if(checkHoVaTen) {
+      //   return this.extraService.response(209, 'đã tồn tại', checkHoVaTen)
+      // } else {
         const checkSoTaiKhoan = await prisma.liXi.findFirst({
           where: {
             soTaiKhoan,
@@ -423,7 +423,7 @@ export class UsersService {
         } else {
           return this.extraService.response(500, 'lỗi', [])
         }
-      }
+      // }
       }
       
     } catch (error) {

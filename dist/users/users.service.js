@@ -396,39 +396,26 @@ let UsersService = class UsersService {
     async dangKyNhanLiXi(body) {
         try {
             const { hoVaTen, soTaiKhoan } = body;
-            const checkHoVaTen = await prisma.liXi.findFirst({
+            const checkSoTaiKhoan = await prisma.liXi.findFirst({
                 where: {
-                    hoVaTen,
+                    soTaiKhoan,
                     liXi: {
                         gt: 0
                     }
                 }
             });
-            if (checkHoVaTen) {
-                return this.extraService.response(209, 'đã tồn tại', checkHoVaTen);
+            if (checkSoTaiKhoan) {
+                return this.extraService.response(208, 'đã tồn tại', checkSoTaiKhoan);
             }
             else {
-                const checkSoTaiKhoan = await prisma.liXi.findFirst({
-                    where: {
-                        soTaiKhoan,
-                        liXi: {
-                            gt: 0
-                        }
-                    }
+                const luuThongTin = await prisma.liXi.create({
+                    data: body
                 });
-                if (checkSoTaiKhoan) {
-                    return this.extraService.response(208, 'đã tồn tại', checkSoTaiKhoan);
+                if (luuThongTin) {
+                    return this.extraService.response(200, 'đã lưu', luuThongTin);
                 }
                 else {
-                    const luuThongTin = await prisma.liXi.create({
-                        data: body
-                    });
-                    if (luuThongTin) {
-                        return this.extraService.response(200, 'đã lưu', luuThongTin);
-                    }
-                    else {
-                        return this.extraService.response(500, 'lỗi', []);
-                    }
+                    return this.extraService.response(500, 'lỗi', []);
                 }
             }
         }
